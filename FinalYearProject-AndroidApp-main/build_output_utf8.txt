@@ -1,0 +1,261 @@
+﻿Initialized native services in: C:\Users\pujak\.gradle\native
+Initialized jansi services in: C:\Users\pujak\.gradle\native
+Found daemon DaemonInfo{pid=11200, address=[905e1328-2383-4f2f-aa9c-88de508137a7 port:63867, addresses:[/127.0.0.1]], state=Idle, lastBusy=1772037339773, context=DefaultDaemonContext[uid=ddd8001c-59c8-4594-a6fd-753f4429ad2b,javaHome=C:\Program Files\Android\Android Studio\jbr,javaVersion=21,javaVendor=JetBrains s.r.o.,daemonRegistryDir=C:\Users\pujak\.gradle\daemon,pid=11200,idleTimeout=10800000,priority=NORMAL,applyInstrumentationAgent=true,nativeServicesMode=ENABLED,daemonOpts=-XX:MaxMetaspaceSize=384m,-XX:+HeapDumpOnOutOfMemoryError,-Xms256m,-Xmx512m,-Dfile.encoding=UTF-8,-Duser.country=US,-Duser.language=en,-Duser.variant]} however its context does not match the desired criteria.
+JVM is incompatible.
+Wanted: DaemonRequestContext{jvmCriteria=C:\Program Files\Java\jdk-21 (no JDK specified, using current Java home), daemonOpts=[-XX:MaxMetaspaceSize=384m, -XX:+HeapDumpOnOutOfMemoryError, -Xms256m, -Xmx512m, -Dfile.encoding=UTF-8, -Duser.country=US, -Duser.language=en, -Duser.variant], applyInstrumentationAgent=true, nativeServicesMode=ENABLED, priority=NORMAL}
+Actual: DefaultDaemonContext[uid=ddd8001c-59c8-4594-a6fd-753f4429ad2b,javaHome=C:\Program Files\Android\Android Studio\jbr,javaVersion=21,javaVendor=JetBrains s.r.o.,daemonRegistryDir=C:\Users\pujak\.gradle\daemon,pid=11200,idleTimeout=10800000,priority=NORMAL,applyInstrumentationAgent=true,nativeServicesMode=ENABLED,daemonOpts=-XX:MaxMetaspaceSize=384m,-XX:+HeapDumpOnOutOfMemoryError,-Xms256m,-Xmx512m,-Dfile.encoding=UTF-8,-Duser.country=US,-Duser.language=en,-Duser.variant]
+
+  Looking for a different daemon...
+The client will now receive all logging from the daemon (pid: 18492). The daemon log file: C:\Users\pujak\.gradle\daemon\8.12\daemon-18492.out.log
+Starting 3rd build in daemon [uptime: 1 mins 0.482 secs, performance: 100%, GC rate: 0.00/s, heap usage: 0% of 512 MiB, non-heap usage: 24% of 384 MiB]
+Using 12 worker leases.
+Now considering [C:\Users\pujak\OneDrive\Desktop\android app] as hierarchies to watch
+Watching the file system is configured to be enabled if available
+File system watching is active
+Starting Build
+Settings evaluated using settings file 'C:\Users\pujak\OneDrive\Desktop\android app\settings.gradle'.
+Projects loaded. Root project using build file 'C:\Users\pujak\OneDrive\Desktop\android app\build.gradle'.
+Included projects: [root project 'AttendanceSystem', project ':app']
+
+> Configure project :
+Evaluating root project 'AttendanceSystem' using build file 'C:\Users\pujak\OneDrive\Desktop\android app\build.gradle'.
+
+> Configure project :app
+Evaluating project ':app' using build file 'C:\Users\pujak\OneDrive\Desktop\android app\app\build.gradle'.
+Resolved plugin [id: 'com.android.application']
+Using default execution profile
+All projects evaluated.
+Task path ':app:processDebugResources' matched project ':app'
+Task name matched 'processDebugResources'
+Selected primary task 'processDebugResources' from project :app
+Tasks to be executed: [task ':app:preBuild', task ':app:preDebugBuild', task ':app:checkDebugAarMetadata', task ':app:compileDebugRenderscript', task ':app:generateDebugResValues', task ':app:mapDebugSourceSetPaths', task ':app:generateDebugResources', task ':app:mergeDebugResources', task ':app:createDebugCompatibleScreenManifests', task ':app:extractDeepLinksDebug', task ':app:processDebugMainManifest', task ':app:processDebugManifest', task ':app:processDebugManifestForPackage', task ':app:processDebugResources']
+Tasks that were excluded: []
+Resolve mutations for :app:preBuild (Thread[#270,Execution worker,5,main]) started.
+:app:preBuild (Thread[#274,Execution worker Thread 5,5,main]) started.
+
+> Task :app:preBuild UP-TO-DATE
+Skipping task ':app:preBuild' as it has no actions.
+Resolve mutations for :app:preDebugBuild (Thread[#274,Execution worker Thread 5,5,main]) started.
+:app:preDebugBuild (Thread[#274,Execution worker Thread 5,5,main]) started.
+
+> Task :app:preDebugBuild UP-TO-DATE
+Skipping task ':app:preDebugBuild' as it has no actions.
+Resolve mutations for :app:checkDebugAarMetadata (Thread[#272,Execution worker Thread 3,5,main]) started.
+:app:checkDebugAarMetadata (Thread[#272,Execution worker Thread 3,5,main]) started.
+
+> Task :app:checkDebugAarMetadata UP-TO-DATE
+Caching disabled for task ':app:checkDebugAarMetadata' because:
+  Build cache is disabled
+  Caching has been disabled for the task
+Skipping task ':app:checkDebugAarMetadata' as it is up-to-date.
+Resolve mutations for :app:compileDebugRenderscript (Thread[#272,Execution worker Thread 3,5,main]) started.
+:app:compileDebugRenderscript (Thread[#272,Execution worker Thread 3,5,main]) started.
+
+> Task :app:compileDebugRenderscript NO-SOURCE
+Skipping task ':app:compileDebugRenderscript' as it has no source files and no previous output files.
+Resolve mutations for :app:generateDebugResValues (Thread[#272,Execution worker Thread 3,5,main]) started.
+:app:generateDebugResValues (Thread[#272,Execution worker Thread 3,5,main]) started.
+
+> Task :app:generateDebugResValues UP-TO-DATE
+Caching disabled for task ':app:generateDebugResValues' because:
+  Build cache is disabled
+Skipping task ':app:generateDebugResValues' as it is up-to-date.
+Resolve mutations for :app:mapDebugSourceSetPaths (Thread[#272,Execution worker Thread 3,5,main]) started.
+:app:mapDebugSourceSetPaths (Thread[#272,Execution worker Thread 3,5,main]) started.
+
+> Task :app:mapDebugSourceSetPaths UP-TO-DATE
+Caching disabled for task ':app:mapDebugSourceSetPaths' because:
+  Build cache is disabled
+  Caching has been disabled for the task
+Skipping task ':app:mapDebugSourceSetPaths' as it is up-to-date.
+Resolve mutations for :app:generateDebugResources (Thread[#272,Execution worker Thread 3,5,main]) started.
+:app:generateDebugResources (Thread[#272,Execution worker Thread 3,5,main]) started.
+
+> Task :app:generateDebugResources UP-TO-DATE
+Skipping task ':app:generateDebugResources' as it has no actions.
+Resolve mutations for :app:mergeDebugResources (Thread[#272,Execution worker Thread 3,5,main]) started.
+:app:mergeDebugResources (Thread[#272,Execution worker Thread 3,5,main]) started.
+
+> Task :app:mergeDebugResources UP-TO-DATE
+Caching disabled for task ':app:mergeDebugResources' because:
+  Build cache is disabled
+Skipping task ':app:mergeDebugResources' as it is up-to-date.
+Resolve mutations for :app:createDebugCompatibleScreenManifests (Thread[#269,included builds,5,main]) started.
+:app:createDebugCompatibleScreenManifests (Thread[#269,included builds,5,main]) started.
+
+> Task :app:createDebugCompatibleScreenManifests UP-TO-DATE
+Caching disabled for task ':app:createDebugCompatibleScreenManifests' because:
+  Build cache is disabled
+  Caching has been disabled for the task
+Skipping task ':app:createDebugCompatibleScreenManifests' as it is up-to-date.
+Resolve mutations for :app:extractDeepLinksDebug (Thread[#269,included builds,5,main]) started.
+:app:extractDeepLinksDebug (Thread[#269,included builds,5,main]) started.
+
+> Task :app:extractDeepLinksDebug UP-TO-DATE
+Caching disabled for task ':app:extractDeepLinksDebug' because:
+  Build cache is disabled
+Skipping task ':app:extractDeepLinksDebug' as it is up-to-date.
+Resolve mutations for :app:processDebugMainManifest (Thread[#269,included builds,5,main]) started.
+:app:processDebugMainManifest (Thread[#269,included builds,5,main]) started.
+
+> Task :app:processDebugMainManifest UP-TO-DATE
+Caching disabled for task ':app:processDebugMainManifest' because:
+  Build cache is disabled
+Skipping task ':app:processDebugMainManifest' as it is up-to-date.
+Resolve mutations for :app:processDebugManifest (Thread[#269,included builds,5,main]) started.
+:app:processDebugManifest (Thread[#269,included builds,5,main]) started.
+
+> Task :app:processDebugManifest UP-TO-DATE
+Caching disabled for task ':app:processDebugManifest' because:
+  Build cache is disabled
+Skipping task ':app:processDebugManifest' as it is up-to-date.
+Resolve mutations for :app:processDebugManifestForPackage (Thread[#269,included builds,5,main]) started.
+:app:processDebugManifestForPackage (Thread[#269,included builds,5,main]) started.
+
+> Task :app:processDebugManifestForPackage UP-TO-DATE
+Custom actions are attached to task ':app:processDebugManifestForPackage'.
+Caching disabled for task ':app:processDebugManifestForPackage' because:
+  Build cache is disabled
+Skipping task ':app:processDebugManifestForPackage' as it is up-to-date.
+Resolve mutations for :app:processDebugResources (Thread[#269,included builds,5,main]) started.
+:app:processDebugResources (Thread[#269,included builds,5,main]) started.
+
+> Task :app:processDebugResources FAILED
+Caching disabled for task ':app:processDebugResources' because:
+  Build cache is disabled
+Task ':app:processDebugResources' is not up-to-date because:
+  Task has failed previously.
+The input changes require a full rebuild for incremental task ':app:processDebugResources'.
+AAPT2 aapt2-7.4.2-8841542-windows Daemon #0: starting
+Android resource linking failed:
+process = AAPT2 aapt2-7.4.2-8841542-windows Daemon #0:
+command = C:\Users\pujak\.gradle\caches\8.12\transforms\bce27e743e1e5ebd0e74c7928f7ee021\transformed\aapt2-7.4.2-8841542-windows\aapt2.exe link -I\
+        C:\Users\pujak\AppData\Local\Android\Sdk\platforms\android-33\android.jar\
+        --manifest\
+        C:\Users\pujak\OneDrive\Desktop\android app\app\build\intermediates\packaged_manifests\debug\AndroidManifest.xml\
+        -o\
+        C:\Users\pujak\OneDrive\Desktop\android app\app\build\intermediates\processed_res\debug\out\resources-debug.ap_\
+        -R\
+        @C:\Users\pujak\OneDrive\Desktop\android app\app\build\intermediates\incremental\processDebugResources\resources-list-for-resources-debug.ap_.txt\
+        --auto-add-overlay\
+        --custom-package\
+        com.example.attendance\
+        -0\
+        apk\
+        --output-text-symbols\
+        C:\Users\pujak\OneDrive\Desktop\android app\app\build\intermediates\runtime_symbol_list\debug\R.txt\
+        --no-version-vectors\
+        --proguard-minimal-keep-rules\
+        --no-proguard-location-reference
+AAPT2 aapt2-7.4.2-8841542-windows Daemon #0: shutdown
+
+[Incubating] Problems report is available at: file:///C:/Users/pujak/OneDrive/Desktop/android%20app/build/reports/problems/problems-report.html
+./gradlew : 
+At line:1 char:1
++ ./gradlew :app:proc
+essDebugResources 
+--info > 
+build_output.txt 2>&1
++ ~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
+~~~~~~
+    + CategoryInfo   
+           : NotSpe  
+  cified: (:String   
+ ) [], RemoteExce    
+ption
+    + FullyQualified 
+   ErrorId : Native  
+  CommandError
+ 
+FAILURE: Build 
+failed with an 
+exception.
+
+* What went wrong:
+Execution failed for 
+task ':app:processDeb
+ugResources'.
+> A failure occurred 
+while executing com.a
+ndroid.build.gradle.i
+nternal.res.LinkAppli
+cationAndroidResource
+sTask$TaskAction
+   > Android 
+resource linking 
+failed
+     C:\Users\pujak\O
+neDrive\Desktop\andro
+id app\app\build\inte
+rmediates\packaged_ma
+nifests\debug\Android
+Manifest.xml:19: 
+error: resource xml/d
+ata_extraction_rules 
+(aka com.example.atte
+ndance:xml/data_extra
+ction_rules) not 
+found.
+     C:\Users\pujak\O
+neDrive\Desktop\andro
+id app\app\build\inte
+rmediates\packaged_ma
+nifests\debug\Android
+Manifest.xml:19: 
+error: resource 
+xml/backup_rules 
+(aka com.example.atte
+ndance:xml/backup_rul
+es) not found.
+     C:\Users\pujak\O
+neDrive\Desktop\andro
+id app\app\build\inte
+rmediates\packaged_ma
+nifests\debug\Android
+Manifest.xml:19: 
+error: resource 
+mipmap/ic_launcher 
+(aka com.example.atte
+ndance:mipmap/ic_laun
+cher) not found.
+     C:\Users\pujak\O
+neDrive\Desktop\andro
+id app\app\build\inte
+rmediates\packaged_ma
+nifests\debug\Android
+Manifest.xml:19: 
+error: resource mipma
+p/ic_launcher_round 
+(aka com.example.atte
+ndance:mipmap/ic_laun
+cher_round) not 
+found.
+     error: failed 
+processing manifest.
+
+
+* Try:
+> Run with 
+--stacktrace option 
+to get the stack 
+trace.
+> Run with --debug 
+option to get more 
+log output.
+> Run with --scan to 
+get full insights.
+> Get more help at ht
+tps://help.gradle.org
+.
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.12/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD FAILED in 4s
+10 actionable tasks: 1 executed, 9 up-to-date
+Watched directory hierarchies: [C:\Users\pujak\OneDrive\Desktop\android app]

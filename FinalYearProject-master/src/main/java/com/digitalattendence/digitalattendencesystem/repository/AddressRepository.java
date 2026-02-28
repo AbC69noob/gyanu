@@ -1,0 +1,7 @@
+package com.digitalattendence.digitalattendencesystem.repository;
+
+import com.digitalattendence.digitalattendencesystem.model.Address;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface AddressRepository extends JpaRepository<Address, Long> {}
+

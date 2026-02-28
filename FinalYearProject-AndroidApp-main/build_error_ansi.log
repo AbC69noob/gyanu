@@ -1,0 +1,295 @@
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:dataBindingMergeDependencyArtifactsDebug UP-TO-DATE
+> Task :app:generateDebugResValues UP-TO-DATE
+> Task :app:generateDebugResources UP-TO-DATE
+> Task :app:mergeDebugResources UP-TO-DATE
+> Task :app:packageDebugResources UP-TO-DATE
+> Task :app:parseDebugLocalResources UP-TO-DATE
+> Task :app:dataBindingGenBaseClassesDebug UP-TO-DATE
+> Task :app:javaPreCompileDebug UP-TO-DATE
+> Task :app:checkDebugAarMetadata UP-TO-DATE
+> Task :app:mapDebugSourceSetPaths UP-TO-DATE
+> Task :app:createDebugCompatibleScreenManifests UP-TO-DATE
+> Task :app:extractDeepLinksDebug UP-TO-DATE
+> Task :app:processDebugMainManifest UP-TO-DATE
+> Task :app:processDebugManifest UP-TO-DATE
+> Task :app:processDebugManifestForPackage UP-TO-DATE
+> Task :app:processDebugResources UP-TO-DATE
+
+> Task :app:compileDebugJavaWithJavac
+C:\Users\pujak\OneDrive\Desktop\android app\app\src\main\java\com\example\attendance\network\ApiService.java:71: error: cannot find symbol
+    Call<List<Teacher>> getTeachers();
+              ^
+  symbol:   class Teacher
+  location: interface ApiService
+C:\Users\pujak\OneDrive\Desktop\android app\app\src\main\java\com\example\attendance\network\ApiService.java:74: error: cannot find symbol
+    Call<Teacher> addTeacher(@Body Teacher teacher);
+                                   ^
+  symbol:   class Teacher
+  location: interface ApiService
+C:\Users\pujak\OneDrive\Desktop\android app\app\src\main\java\com\example\attendance\network\ApiService.java:74: error: cannot find symbol
+    Call<Teacher> addTeacher(@Body Teacher teacher);
+         ^
+  symbol:   class Teacher
+  location: interface ApiService
+C:\Users\pujak\OneDrive\Desktop\android app\app\src\main\java\com\example\attendance\network\ApiService.java:77: error: cannot find symbol
+    Call<Teacher> getCurrentTeacher();
+         ^
+  symbol:   class Teacher
+  location: interface ApiService
+C:\Users\pujak\OneDrive\Desktop\android app\app\src\main\java\com\example\attendance\network\RetrofitClient.java:21: error: cannot find symbol
+    public static ApiService getApiService() {
+                  ^
+  symbol:   class ApiService
+  location: class RetrofitClient
+C:\Users\pujak\OneDrive\Desktop\android app\app\src\main\java\com\example\attendance\ui\admin\AdminFragment.java:18: error: cannot find symbol
+import com.example.attendance.network.RetrofitClient;
+                                     ^
+  symbol:   class RetrofitClient
+  location: package com.example.attendance.network
+C:\Users\pujak\OneDrive\Desktop\android app\app\src\main\java\com\example\attendance\ui\LoginActivity.java:13: error: cannot find symbol
+import com.example.attendance.network.RetrofitClient;
+                                     ^
+  symbol:   class RetrofitClient
+  location: package com.example.attendance.network
+C:\Users\pujak\OneDrive\Desktop\android app\app\src\main\java\com\example\attendance\ui\student\StudentFragment.java:16: error: cannot find symbol
+import com.example.attendance.network.RetrofitClient;
+                                     ^
+  symbol:   class RetrofitClient
+  location: package com.example.attendance.network
+C:\Users\pujak\OneDrive\Desktop\android app\app\src\main\java\com\example\attendance\ui\teacher\TeacherFragment.java:22: error: cannot find symbol
+import com.example.attendance.network.RetrofitClient;
+                                     ^
+  symbol:   class RetrofitClient
+  location: package com.example.attendance.network
+C:\Users\pujak\OneDrive\Desktop\android app\app\src\main\java\com\example\attendance\network\RetrofitClient.java:49: error: cannot find symbol
+        return retrofit.create(ApiService.class);
+                               ^
+  symbol:   class ApiService
+  location: class RetrofitClient
+C:\Users\pujak\OneDrive\Desktop\android app\app\src\main\java\com\example\attendance\ui\admin\AdminFragment.java:76: error: cannot find symbol
+        RetrofitClient.getApiService().getStudents().enqueue(new Callback<List<Student>>() {
+        ^
+  symbol:   variable RetrofitClient
+  location: class AdminFragment
+C:\Users\pujak\OneDrive\Desktop\android app\app\src\main\java\com\example\attendance\ui\admin\AdminFragment.java:87: error: cannot find symbol
+        RetrofitClient.getApiService().getPrograms().enqueue(new Callback<List<Program>>() {
+        ^
+  symbol:   variable RetrofitClient
+  location: class AdminFragment
+C:\Users\pujak\OneDrive\Desktop\android app\app\src\main\java\com\example\attendance\ui\admin\AdminFragment.java:100: error: cannot find symbol
+        RetrofitClient.getApiService().getStudents().enqueue(new Callback<List<Student>>() {
+        ^
+  symbol:   variable RetrofitClient
+  location: class AdminFragment
+C:\Users\pujak\OneDrive\Desktop\android app\app\src\main\java\com\example\attendance\ui\admin\AdminFragment.java:115: error: cannot find symbol
+        RetrofitClient.getApiService().getPrograms().enqueue(new Callback<List<Program>>() {
+        ^
+  symbol:   variable RetrofitClient
+  location: class AdminFragment
+C:\Users\pujak\OneDrive\Desktop\android app\app\src\main\java\com\example\attendance\ui\admin\AdminFragment.java:128: error: cannot find symbol
+        RetrofitClient.getApiService().getSubjects().enqueue(new Callback<List<Subject>>() {
+        ^
+  symbol:   variable RetrofitClient
+  location: class AdminFragment
+C:\Users\pujak\OneDrive\Desktop\android app\app\src\main\java\com\example\attendance\ui\LoginActivity.java:31: error: cannot find symbol
+        RetrofitClient.init(this);
+        ^
+  symbol:   variable RetrofitClient
+  location: class LoginActivity
+C:\Users\pujak\OneDrive\Desktop\android app\app\src\main\java\com\example\attendance\ui\LoginActivity.java:55: error: cannot find symbol
+        RetrofitClient.getApiService().login(request).enqueue(new LoginCallback());
+        ^
+  symbol:   variable RetrofitClient
+  location: class LoginActivity
+C:\Users\pujak\OneDrive\Desktop\android app\app\src\main\java\com\example\attendance\ui\MainActivity.java:31: error: cannot find symbol
+        RetrofitClient.init(this);
+        ^
+  symbol:   variable RetrofitClient
+  location: class MainActivity
+C:\Users\pujak\OneDrive\Desktop\android app\app\src\main\java\com\example\attendance\ui\student\AttendanceRecordAdapter.java:48: error: cannot find symbol
+            badgeRes = R.drawable.badge_leave;
+                                 ^
+  symbol:   variable badge_leave
+  location: class drawable
+C:\Users\pujak\OneDrive\Desktop\android app\app\src\main\java\com\example\attendance\ui\student\StudentFragment.java:50: error: cannot find symbol
+        RetrofitClient.getApiService().getAttendance().enqueue(new Callback<List<Attendance>>() {
+        ^
+  symbol:   variable RetrofitClient
+  location: class StudentFragment
+C:\Users\pujak\OneDrive\Desktop\android app\app\src\main\java\com\example\attendance\ui\teacher\TeacherFragment.java:119: error: cannot find symbol
+        RetrofitClient.getApiService().getPrograms().enqueue(new Callback<List<Program>>() {
+        ^
+  symbol:   variable RetrofitClient
+  location: class TeacherFragment
+C:\Users\pujak\OneDrive\Desktop\android app\app\src\main\java\com\example\attendance\ui\teacher\TeacherFragment.java:141: error: cannot find symbol
+        RetrofitClient.getApiService().getSemesters().enqueue(new Callback<List<Semester>>() {
+        ^
+  symbol:   variable RetrofitClient
+  location: class TeacherFragment
+C:\Users\pujak\OneDrive\Desktop\android app\app\src\main\java\com\example\attendance\ui\teacher\TeacherFragment.java:163: error: cannot find symbol
+        RetrofitClient.getApiService().getSubjects().enqueue(new Callback<List<Subject>>() {
+        ^
+  symbol:   variable RetrofitClient
+  location: class TeacherFragment
+C:\Users\pujak\OneDrive\Desktop\android app\app\src\main\java\com\example\attendance\ui\teacher\TeacherFragment.java:187: error: cannot find symbol
+        RetrofitClient.getApiService().getStudentsByFilter(selectedProgramId, selectedSemesterId).enqueue(new Callback<List<Student>>() {
+        ^
+  symbol:   variable RetrofitClient
+  location: class TeacherFragment
+C:\Users\pujak\OneDrive\Desktop\android app\app\src\main\java\com\example\attendance\ui\teacher\TeacherFragment.java:218: error: cannot find symbol
+            RetrofitClient.getApiService().markAttendance(request).enqueue(new Callback<Void>() {
+            ^
+  symbol:   variable RetrofitClient
+  location: class TeacherFragment
+25 errors
+
+> Task :app:compileDebugJavaWithJavac FAILED
+
+[Incubating] Problems report is available at: file:///C:/Users/pujak/OneDrive/Desktop/android%20app/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:compileDebugJavaWithJavac'.
+> Compilation failed; see the compiler output below.
+  C:\Users\pujak\OneDrive\Desktop\android app\app\src\main\java\com\example\attendance\network\ApiService.java:71: error: cannot find symbol
+      Call<List<Teacher>> getTeachers();
+                ^
+    symbol:   class Teacher
+    location: interface ApiService
+  C:\Users\pujak\OneDrive\Desktop\android app\app\src\main\java\com\example\attendance\network\ApiService.java:74: error: cannot find symbol
+      Call<Teacher> addTeacher(@Body Teacher teacher);
+                                     ^
+    symbol:   class Teacher
+    location: interface ApiService
+  C:\Users\pujak\OneDrive\Desktop\android app\app\src\main\java\com\example\attendance\network\ApiService.java:74: error: cannot find symbol
+      Call<Teacher> addTeacher(@Body Teacher teacher);
+           ^
+    symbol:   class Teacher
+    location: interface ApiService
+  C:\Users\pujak\OneDrive\Desktop\android app\app\src\main\java\com\example\attendance\network\ApiService.java:77: error: cannot find symbol
+      Call<Teacher> getCurrentTeacher();
+           ^
+    symbol:   class Teacher
+    location: interface ApiService
+  C:\Users\pujak\OneDrive\Desktop\android app\app\src\main\java\com\example\attendance\network\RetrofitClient.java:21: error: cannot find symbol
+      public static ApiService getApiService() {
+                    ^
+    symbol:   class ApiService
+    location: class RetrofitClient
+  C:\Users\pujak\OneDrive\Desktop\android app\app\src\main\java\com\example\attendance\ui\admin\AdminFragment.java:18: error: cannot find symbol
+  import com.example.attendance.network.RetrofitClient;
+                                       ^
+    symbol:   class RetrofitClient
+    location: package com.example.attendance.network
+  C:\Users\pujak\OneDrive\Desktop\android app\app\src\main\java\com\example\attendance\ui\LoginActivity.java:13: error: cannot find symbol
+  import com.example.attendance.network.RetrofitClient;
+                                       ^
+    symbol:   class RetrofitClient
+    location: package com.example.attendance.network
+  C:\Users\pujak\OneDrive\Desktop\android app\app\src\main\java\com\example\attendance\ui\student\StudentFragment.java:16: error: cannot find symbol
+  import com.example.attendance.network.RetrofitClient;
+                                       ^
+    symbol:   class RetrofitClient
+    location: package com.example.attendance.network
+  C:\Users\pujak\OneDrive\Desktop\android app\app\src\main\java\com\example\attendance\ui\teacher\TeacherFragment.java:22: error: cannot find symbol
+  import com.example.attendance.network.RetrofitClient;
+                                       ^
+    symbol:   class RetrofitClient
+    location: package com.example.attendance.network
+  C:\Users\pujak\OneDrive\Desktop\android app\app\src\main\java\com\example\attendance\network\RetrofitClient.java:49: error: cannot find symbol
+          return retrofit.create(ApiService.class);
+                                 ^
+    symbol:   class ApiService
+    location: class RetrofitClient
+  C:\Users\pujak\OneDrive\Desktop\android app\app\src\main\java\com\example\attendance\ui\admin\AdminFragment.java:76: error: cannot find symbol
+          RetrofitClient.getApiService().getStudents().enqueue(new Callback<List<Student>>() {
+          ^
+    symbol:   variable RetrofitClient
+    location: class AdminFragment
+  C:\Users\pujak\OneDrive\Desktop\android app\app\src\main\java\com\example\attendance\ui\admin\AdminFragment.java:87: error: cannot find symbol
+          RetrofitClient.getApiService().getPrograms().enqueue(new Callback<List<Program>>() {
+          ^
+    symbol:   variable RetrofitClient
+    location: class AdminFragment
+  C:\Users\pujak\OneDrive\Desktop\android app\app\src\main\java\com\example\attendance\ui\admin\AdminFragment.java:100: error: cannot find symbol
+          RetrofitClient.getApiService().getStudents().enqueue(new Callback<List<Student>>() {
+          ^
+    symbol:   variable RetrofitClient
+    location: class AdminFragment
+  C:\Users\pujak\OneDrive\Desktop\android app\app\src\main\java\com\example\attendance\ui\admin\AdminFragment.java:115: error: cannot find symbol
+          RetrofitClient.getApiService().getPrograms().enqueue(new Callback<List<Program>>() {
+          ^
+    symbol:   variable RetrofitClient
+    location: class AdminFragment
+  C:\Users\pujak\OneDrive\Desktop\android app\app\src\main\java\com\example\attendance\ui\admin\AdminFragment.java:128: error: cannot find symbol
+          RetrofitClient.getApiService().getSubjects().enqueue(new Callback<List<Subject>>() {
+          ^
+    symbol:   variable RetrofitClient
+    location: class AdminFragment
+  C:\Users\pujak\OneDrive\Desktop\android app\app\src\main\java\com\example\attendance\ui\LoginActivity.java:31: error: cannot find symbol
+          RetrofitClient.init(this);
+          ^
+    symbol:   variable RetrofitClient
+    location: class LoginActivity
+  C:\Users\pujak\OneDrive\Desktop\android app\app\src\main\java\com\example\attendance\ui\LoginActivity.java:55: error: cannot find symbol
+          RetrofitClient.getApiService().login(request).enqueue(new LoginCallback());
+          ^
+    symbol:   variable RetrofitClient
+    location: class LoginActivity
+  C:\Users\pujak\OneDrive\Desktop\android app\app\src\main\java\com\example\attendance\ui\MainActivity.java:31: error: cannot find symbol
+          RetrofitClient.init(this);
+          ^
+    symbol:   variable RetrofitClient
+    location: class MainActivity
+  C:\Users\pujak\OneDrive\Desktop\android app\app\src\main\java\com\example\attendance\ui\student\AttendanceRecordAdapter.java:48: error: cannot find symbol
+              badgeRes = R.drawable.badge_leave;
+                                   ^
+    symbol:   variable badge_leave
+    location: class drawable
+  C:\Users\pujak\OneDrive\Desktop\android app\app\src\main\java\com\example\attendance\ui\student\StudentFragment.java:50: error: cannot find symbol
+          RetrofitClient.getApiService().getAttendance().enqueue(new Callback<List<Attendance>>() {
+          ^
+    symbol:   variable RetrofitClient
+    location: class StudentFragment
+  C:\Users\pujak\OneDrive\Desktop\android app\app\src\main\java\com\example\attendance\ui\teacher\TeacherFragment.java:119: error: cannot find symbol
+          RetrofitClient.getApiService().getPrograms().enqueue(new Callback<List<Program>>() {
+          ^
+    symbol:   variable RetrofitClient
+    location: class TeacherFragment
+  C:\Users\pujak\OneDrive\Desktop\android app\app\src\main\java\com\example\attendance\ui\teacher\TeacherFragment.java:141: error: cannot find symbol
+          RetrofitClient.getApiService().getSemesters().enqueue(new Callback<List<Semester>>() {
+          ^
+    symbol:   variable RetrofitClient
+    location: class TeacherFragment
+  C:\Users\pujak\OneDrive\Desktop\android app\app\src\main\java\com\example\attendance\ui\teacher\TeacherFragment.java:163: error: cannot find symbol
+          RetrofitClient.getApiService().getSubjects().enqueue(new Callback<List<Subject>>() {
+          ^
+    symbol:   variable RetrofitClient
+    location: class TeacherFragment
+  C:\Users\pujak\OneDrive\Desktop\android app\app\src\main\java\com\example\attendance\ui\teacher\TeacherFragment.java:187: error: cannot find symbol
+          RetrofitClient.getApiService().getStudentsByFilter(selectedProgramId, selectedSemesterId).enqueue(new Callback<List<Student>>() {
+          ^
+    symbol:   variable RetrofitClient
+    location: class TeacherFragment
+  C:\Users\pujak\OneDrive\Desktop\android app\app\src\main\java\com\example\attendance\ui\teacher\TeacherFragment.java:218: error: cannot find symbol
+              RetrofitClient.getApiService().markAttendance(request).enqueue(new Callback<Void>() {
+              ^
+    symbol:   variable RetrofitClient
+    location: class TeacherFragment
+  25 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights.
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.12/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD FAILED in 9s
+16 actionable tasks: 1 executed, 15 up-to-date

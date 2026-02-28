@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Digital Attendance</string>
+    <string name="login_title">Digital Attendance System</string>
+    <string name="username_hint">Username</string>
+    <string name="password_hint">Password</string>
+    <string name="login_button">Login</string>
+    <string name="logging_in">Logging in...</string>
+    <string name="error_fields_required">Please fill in all fields</string>
+    <string name="logout">Logout</string>
+    
+    <!-- Roles -->
+    <string name="admin_dashboard">Admin Dashboard</string>
+    <string name="teacher_dashboard">Teacher Dashboard</string>
+    <string name="student_dashboard">Student Dashboard</string>
+</resources>
