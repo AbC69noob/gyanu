@@ -114,6 +114,11 @@ const Dashboard = () => {
   const [markAttendanceSubject, setMarkAttendanceSubject] = useState("");
   const [attendanceDashboardDate, setAttendanceDashboardDate] = useState(new Date().toISOString().split('T')[0]);
   const [attendanceDashboardMode, setAttendanceDashboardMode] = useState(null); // 'view' or 'mark'
+  const [showAdminAttendance, setShowAdminAttendance] = useState(false);
+  const [adminAttProgram, setAdminAttProgram] = useState('');
+  const [adminAttSemester, setAdminAttSemester] = useState('');
+  const [adminAttSubject, setAdminAttSubject] = useState('');
+  const [adminAttDate, setAdminAttDate] = useState(new Date().toISOString().split('T')[0]);
   const handleBulkPromotion = async () => {
     try {
       setLoading(true);
@@ -379,9 +384,9 @@ const Dashboard = () => {
 
   const markAttendance = async (studentId, status) => {
     // Determine which subject ID to use based on context
-    let subjectId = markAttendanceSubject || homeSelectedSubject;
+    let subjectId = markAttendanceSubject || homeSelectedSubject || adminAttSubject;
 
-    console.log('markAttendance called with:', { studentId, status, subjectId, markAttendanceSubject, homeSelectedSubject });
+    console.log('markAttendance called with:', { studentId, status, subjectId, markAttendanceSubject, homeSelectedSubject, adminAttSubject });
 
     if (!subjectId) {
       setError("Please select a subject before marking attendance");
@@ -398,8 +403,12 @@ const Dashboard = () => {
       statusValue = 'L';
     }
 
-    // Use attendanceDashboardDate if in dashboard mode, otherwise use current date
-    const attendanceDate = attendanceDashboardMode ? attendanceDashboardDate : new Date().toISOString().split('T')[0];
+    // Pick the right date depending on which tab triggered this
+    const attendanceDate = showAdminAttendance
+      ? adminAttDate
+      : attendanceDashboardMode
+        ? attendanceDashboardDate
+        : new Date().toISOString().split('T')[0];
 
     try {
       const payload = {
@@ -1354,6 +1363,7 @@ const Dashboard = () => {
     setShowUserForm(false);
     setShowCourseAllocation(false);
     setShowReport(false);
+    setShowAdminAttendance(false);
     setShowStudentForm(false);
     setShowAddUserForm(false);
     setShowBatchForm(false);
@@ -1383,6 +1393,7 @@ const Dashboard = () => {
       case 'subjects': setShowSubjects(true); fetchSubjects(); fetchPrograms(); fetchSemesters(); fetchTeachers(); break;
       case 'programs': setShowProgramForm(true); fetchPrograms(); break;
       case 'attendance': setShowAttendance(true); fetchAttendance(); fetchPrograms(); fetchSemesters(); break;
+      case 'adminAttendance': setShowAdminAttendance(true); fetchPrograms(); fetchSemesters(); fetchSubjects(); fetchStudents(); fetchAttendance(); break;
       case 'allocations': setShowCourseAllocation(true); fetchFaculties(); fetchSemesters(); fetchSubjects(); fetchTeachers(); fetchAllocations(); break;
       case 'report': setShowReport(true); break;
       case 'subjects': setShowSubjects(true); setIsAddingSubject(false); fetchSubjects(); fetchPrograms(); fetchSemesters(); fetchTeachers(); break;
@@ -1564,16 +1575,19 @@ const Dashboard = () => {
               </>
             )}
 
-            {/* ── ATTENDANCE ───────────────────────── */}
-            {/*}
-          <p style={{ color: '#475569', fontSize: '0.7rem', fontWeight: '700', letterSpacing: '0.1em', textTransform: 'uppercase', padding: '0.6rem 0.6rem 0.2rem', marginTop: '0.5rem' }}>
-            Attendance
-          </p>
-          {/*<button onClick={() => switchToForm('attendance')} className="sidebar-button">
-            {isStudent ? '📅 View Attendance' : isTeacher && !isAdmin ? '✅ Mark Attendance' : '📅 Manage Attendance'}
-          </button>/*}
+            {/* ── ATTENDANCE (Admin Mark) ───────────── */}
+            {isAdmin && (
+              <>
+                <p style={{ color: '#475569', fontSize: '0.7rem', fontWeight: '700', letterSpacing: '0.1em', textTransform: 'uppercase', padding: '0.6rem 0.6rem 0.2rem', marginTop: '0.5rem' }}>
+                  Attendance
+                </p>
+                <button onClick={() => switchToForm('adminAttendance')} className="sidebar-button">
+                  ✅ Mark Attendance
+                </button>
+              </>
+            )}
 
-          {/* ── REPORTS ──────────────────────────── */}
+            {/* ── REPORTS ──────────────────────────── */}
             {(isAdmin || isTeacher || isStudent) && (
               <>
                 <p style={{ color: '#475569', fontSize: '0.7rem', fontWeight: '700', letterSpacing: '0.1em', textTransform: 'uppercase', padding: '0.6rem 0.6rem 0.2rem', marginTop: '0.5rem' }}>
@@ -3623,6 +3637,7 @@ const Dashboard = () => {
                       Add New Allocation
                     </button>
                   </div>
+                  {error && <div className="error-message">{error}</div>}
                   {success && <div className="success-message">{success}</div>}
 
                   <div className="filter-container">
@@ -3656,18 +3671,18 @@ const Dashboard = () => {
                   {allocations.length > 0 ? (
                     <>
                       <div className="table-container">
-                        <table className="allocations-table" style={{ backgroundColor: 'white' }}>
-                          <thead style={{ backgroundColor: '#007bff' }}>
+                        <table className="allocations-table">
+                          <thead>
                             <tr>
-                              <th style={{ color: 'white' }}>Edit</th>
-                              <th style={{ color: 'white' }}>Faculty</th>
-                              <th style={{ color: 'white' }}>Subject</th>
-                              <th style={{ color: 'white' }}>Semester</th>
-                              <th style={{ color: 'white' }}>Teacher</th>
-                              <th style={{ color: 'white' }}>Action</th>
+                              <th>Edit</th>
+                              <th>Faculty</th>
+                              <th>Subject</th>
+                              <th>Semester</th>
+                              <th>Teacher</th>
+                              <th>Action</th>
                             </tr>
                           </thead>
-                          <tbody style={{ backgroundColor: 'white' }}>
+                          <tbody>
                             {allocations
                               .filter(allocation => {
                                 const matchesFaculty = !selectedAllocationFaculty ||
@@ -3870,6 +3885,201 @@ const Dashboard = () => {
                   </form>
                 </div>
               )}
+            </div>
+          )}
+
+          {/* ══════════════ ADMIN ATTENDANCE TAB ══════════════ */}
+          {showAdminAttendance && (
+            <div className="mark-attendance-section">
+              {/* Header */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+                <h3>Mark Attendance</h3>
+              </div>
+
+              {error && <div className="error-message">{error}</div>}
+              {success && <div className="success-message">{success}</div>}
+
+              {/* ── Filters ─────────────────────────────────── */}
+              <div className="filter-container" style={{ flexWrap: 'wrap', gap: '1rem', marginBottom: '1.5rem' }}>
+
+                {/* Date */}
+                <div className="filter-group">
+                  <label className="filter-label">Date</label>
+                  <input
+                    type="date"
+                    value={adminAttDate}
+                    onChange={(e) => setAdminAttDate(e.target.value)}
+                    max={new Date().toISOString().split('T')[0]}
+                    className="filter-select"
+                    style={{ minWidth: '160px' }}
+                  />
+                </div>
+
+                {/* Program */}
+                <div className="filter-group">
+                  <label className="filter-label">Program</label>
+                  <select
+                    value={adminAttProgram}
+                    onChange={(e) => {
+                      setAdminAttProgram(e.target.value);
+                      setAdminAttSemester('');
+                      setAdminAttSubject('');
+                    }}
+                    className="filter-select"
+                  >
+                    <option value="">Select Program</option>
+                    {programs.map((p) => (
+                      <option key={p.id} value={p.id}>{p.name}</option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Semester — enabled only after program chosen */}
+                <div className="filter-group">
+                  <label className="filter-label">Semester</label>
+                  <select
+                    value={adminAttSemester}
+                    onChange={(e) => {
+                      setAdminAttSemester(e.target.value);
+                      setAdminAttSubject('');
+                    }}
+                    className="filter-select"
+                    disabled={!adminAttProgram}
+                  >
+                    <option value="">Select Semester</option>
+                    {semesters.map((s) => (
+                      <option key={s.id} value={s.id}>{s.number}</option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Subject — filtered by program + semester */}
+                <div className="filter-group">
+                  <label className="filter-label required">Subject</label>
+                  <select
+                    value={adminAttSubject}
+                    onChange={(e) => setAdminAttSubject(e.target.value)}
+                    className="filter-select"
+                    disabled={!adminAttSemester}
+                    style={{
+                      border: adminAttSubject
+                        ? '2px solid #10b981'
+                        : adminAttSemester ? '2px solid #dc2626' : undefined
+                    }}
+                  >
+                    <option value="">Select Subject</option>
+                    {subjects
+                      .filter((subj) => {
+                        const matchProgram = !adminAttProgram || subj.program?.id?.toString() === adminAttProgram;
+                        const matchSem = !adminAttSemester || subj.semester?.id?.toString() === adminAttSemester;
+                        return matchProgram && matchSem;
+                      })
+                      .map((subj) => (
+                        <option key={subj.id} value={subj.id}>
+                          {subj.name} ({subj.code})
+                        </option>
+                      ))}
+                  </select>
+                </div>
+              </div>
+
+              {/* ── Guidance toasts ─────────────────────────── */}
+              {!adminAttProgram && (
+                <div className="subject-warning-toast">
+                  <span className="warning-icon">⚠️</span>
+                  <span>Please select a <strong>Program</strong> to begin</span>
+                </div>
+              )}
+              {adminAttProgram && !adminAttSemester && (
+                <div className="subject-warning-toast">
+                  <span className="warning-icon">⚠️</span>
+                  <span>Please select a <strong>Semester</strong></span>
+                </div>
+              )}
+              {adminAttProgram && adminAttSemester && !adminAttSubject && (
+                <div className="subject-warning-toast">
+                  <span className="warning-icon">⚠️</span>
+                  <span>Please select a <strong>Subject</strong> to mark attendance</span>
+                </div>
+              )}
+
+              {/* ── Student table ────────────────────────────── */}
+              {adminAttProgram && adminAttSemester && adminAttSubject && (() => {
+                const filtered = students.filter((s) =>
+                  s.status !== 0 &&
+                  s.program?.id?.toString() === adminAttProgram &&
+                  s.semester?.id?.toString() === adminAttSemester
+                );
+
+                if (filtered.length === 0) {
+                  return (
+                    <p className="no-students">No active students found for the selected filters.</p>
+                  );
+                }
+
+                return (
+                  <div className="table-container">
+                    <table className="students-table">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Name</th>
+                          <th>Roll No</th>
+                          <th>Program</th>
+                          <th>Semester</th>
+                          <th>Attendance ({adminAttDate})</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {filtered.map((student, idx) => (
+                          <tr key={student.id}>
+                            <td>{idx + 1}</td>
+                            <td>{student.name}</td>
+                            <td>{student.rollNo}</td>
+                            <td>{student.program?.name || 'N/A'}</td>
+                            <td>{student.semester?.number || 'N/A'}</td>
+                            <td>
+                              {isAttendanceAlreadyMarked(student.id, adminAttSubject, adminAttDate) ? (
+                                <div className="attendance-marked-status">
+                                  <span className="marked-badge">✓ Already Marked</span>
+                                  <p className="edit-instruction">Go to Attendance tab to update</p>
+                                </div>
+                              ) : (
+                                <div className="attendance-buttons">
+                                  <button
+                                    type="button"
+                                    onClick={() => markAttendance(student.id, 'present')}
+                                    disabled={attendanceLoading[student.id]}
+                                    className="attendance-btn present-btn"
+                                  >
+                                    {attendanceLoading[student.id] ? '...' : 'Present'}
+                                  </button>
+                                  <button
+                                    type="button"
+                                    onClick={() => markAttendance(student.id, 'absent')}
+                                    disabled={attendanceLoading[student.id]}
+                                    className="attendance-btn absent-btn"
+                                  >
+                                    {attendanceLoading[student.id] ? '...' : 'Absent'}
+                                  </button>
+                                  <button
+                                    type="button"
+                                    onClick={() => markAttendance(student.id, 'leave')}
+                                    disabled={attendanceLoading[student.id]}
+                                    className="attendance-btn leave-btn"
+                                  >
+                                    {attendanceLoading[student.id] ? '...' : 'Leave'}
+                                  </button>
+                                </div>
+                              )}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                );
+              })()}
             </div>
           )}
 
