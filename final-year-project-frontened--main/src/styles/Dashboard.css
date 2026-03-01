@@ -665,6 +665,72 @@ input[type="date"]:focus {
   box-shadow: 0 0 0 3px var(--accent-glow);
 }
 
+/* Filter group (label + select stacked) */
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.filter-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.filter-label.required::after {
+  content: ' *';
+  color: #f87171;
+}
+
+/* Subject warning toast */
+.subject-warning-toast {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: rgba(245, 158, 11, 0.08);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: var(--radius-sm);
+  padding: 0.7rem 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+  color: #fbbf24;
+}
+
+.warning-icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+/* Already-marked attendance badge */
+.attendance-marked-status {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.marked-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: var(--green-light);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.65rem;
+  white-space: nowrap;
+}
+
+.edit-instruction {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
 /* ══════════════════════════════════════════════════════
    EDIT CONTROLS (inline table editing)
    ══════════════════════════════════════════════════════ */
