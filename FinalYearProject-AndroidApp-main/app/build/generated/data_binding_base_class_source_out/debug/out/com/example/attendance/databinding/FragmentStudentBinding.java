@@ -4,7 +4,7 @@ package com.example.attendance.databinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,38 +18,64 @@ import java.lang.String;
 
 public final class FragmentStudentBinding implements ViewBinding {
   @NonNull
-  private final LinearLayout rootView;
+  private final ScrollView rootView;
 
   @NonNull
   public final RecyclerView rvStudentAttendance;
 
   @NonNull
+  public final TextView tvAbsentCount;
+
+  @NonNull
   public final TextView tvAttendancePercent;
+
+  @NonNull
+  public final TextView tvAvatar;
+
+  @NonNull
+  public final TextView tvNoRecords;
+
+  @NonNull
+  public final TextView tvPresentCount;
+
+  @NonNull
+  public final TextView tvProgramName;
+
+  @NonNull
+  public final TextView tvRollNo;
+
+  @NonNull
+  public final TextView tvSemester;
 
   @NonNull
   public final TextView tvStudentNameDisplay;
 
   @NonNull
-  public final TextView tvStudentStats;
-
-  @NonNull
   public final TextView tvTotalClasses;
 
-  private FragmentStudentBinding(@NonNull LinearLayout rootView,
-      @NonNull RecyclerView rvStudentAttendance, @NonNull TextView tvAttendancePercent,
-      @NonNull TextView tvStudentNameDisplay, @NonNull TextView tvStudentStats,
-      @NonNull TextView tvTotalClasses) {
+  private FragmentStudentBinding(@NonNull ScrollView rootView,
+      @NonNull RecyclerView rvStudentAttendance, @NonNull TextView tvAbsentCount,
+      @NonNull TextView tvAttendancePercent, @NonNull TextView tvAvatar,
+      @NonNull TextView tvNoRecords, @NonNull TextView tvPresentCount,
+      @NonNull TextView tvProgramName, @NonNull TextView tvRollNo, @NonNull TextView tvSemester,
+      @NonNull TextView tvStudentNameDisplay, @NonNull TextView tvTotalClasses) {
     this.rootView = rootView;
     this.rvStudentAttendance = rvStudentAttendance;
+    this.tvAbsentCount = tvAbsentCount;
     this.tvAttendancePercent = tvAttendancePercent;
+    this.tvAvatar = tvAvatar;
+    this.tvNoRecords = tvNoRecords;
+    this.tvPresentCount = tvPresentCount;
+    this.tvProgramName = tvProgramName;
+    this.tvRollNo = tvRollNo;
+    this.tvSemester = tvSemester;
     this.tvStudentNameDisplay = tvStudentNameDisplay;
-    this.tvStudentStats = tvStudentStats;
     this.tvTotalClasses = tvTotalClasses;
   }
 
   @Override
   @NonNull
-  public LinearLayout getRoot() {
+  public ScrollView getRoot() {
     return rootView;
   }
 
@@ -80,9 +106,51 @@ public final class FragmentStudentBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.tvAbsentCount;
+      TextView tvAbsentCount = ViewBindings.findChildViewById(rootView, id);
+      if (tvAbsentCount == null) {
+        break missingId;
+      }
+
       id = R.id.tvAttendancePercent;
       TextView tvAttendancePercent = ViewBindings.findChildViewById(rootView, id);
       if (tvAttendancePercent == null) {
+        break missingId;
+      }
+
+      id = R.id.tvAvatar;
+      TextView tvAvatar = ViewBindings.findChildViewById(rootView, id);
+      if (tvAvatar == null) {
+        break missingId;
+      }
+
+      id = R.id.tvNoRecords;
+      TextView tvNoRecords = ViewBindings.findChildViewById(rootView, id);
+      if (tvNoRecords == null) {
+        break missingId;
+      }
+
+      id = R.id.tvPresentCount;
+      TextView tvPresentCount = ViewBindings.findChildViewById(rootView, id);
+      if (tvPresentCount == null) {
+        break missingId;
+      }
+
+      id = R.id.tvProgramName;
+      TextView tvProgramName = ViewBindings.findChildViewById(rootView, id);
+      if (tvProgramName == null) {
+        break missingId;
+      }
+
+      id = R.id.tvRollNo;
+      TextView tvRollNo = ViewBindings.findChildViewById(rootView, id);
+      if (tvRollNo == null) {
+        break missingId;
+      }
+
+      id = R.id.tvSemester;
+      TextView tvSemester = ViewBindings.findChildViewById(rootView, id);
+      if (tvSemester == null) {
         break missingId;
       }
 
@@ -92,20 +160,15 @@ public final class FragmentStudentBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.tvStudentStats;
-      TextView tvStudentStats = ViewBindings.findChildViewById(rootView, id);
-      if (tvStudentStats == null) {
-        break missingId;
-      }
-
       id = R.id.tvTotalClasses;
       TextView tvTotalClasses = ViewBindings.findChildViewById(rootView, id);
       if (tvTotalClasses == null) {
         break missingId;
       }
 
-      return new FragmentStudentBinding((LinearLayout) rootView, rvStudentAttendance,
-          tvAttendancePercent, tvStudentNameDisplay, tvStudentStats, tvTotalClasses);
+      return new FragmentStudentBinding((ScrollView) rootView, rvStudentAttendance, tvAbsentCount,
+          tvAttendancePercent, tvAvatar, tvNoRecords, tvPresentCount, tvProgramName, tvRollNo,
+          tvSemester, tvStudentNameDisplay, tvTotalClasses);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

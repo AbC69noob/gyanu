@@ -34,16 +34,25 @@ public final class ItemAttendanceMarkBinding implements ViewBinding {
   public final RadioGroup rgStatus;
 
   @NonNull
+  public final TextView tvAlreadyMarked;
+
+  @NonNull
+  public final TextView tvRollNo;
+
+  @NonNull
   public final TextView tvStudentName;
 
   private ItemAttendanceMarkBinding(@NonNull MaterialCardView rootView,
       @NonNull RadioButton rbAbsent, @NonNull RadioButton rbLeave, @NonNull RadioButton rbPresent,
-      @NonNull RadioGroup rgStatus, @NonNull TextView tvStudentName) {
+      @NonNull RadioGroup rgStatus, @NonNull TextView tvAlreadyMarked, @NonNull TextView tvRollNo,
+      @NonNull TextView tvStudentName) {
     this.rootView = rootView;
     this.rbAbsent = rbAbsent;
     this.rbLeave = rbLeave;
     this.rbPresent = rbPresent;
     this.rgStatus = rgStatus;
+    this.tvAlreadyMarked = tvAlreadyMarked;
+    this.tvRollNo = tvRollNo;
     this.tvStudentName = tvStudentName;
   }
 
@@ -98,6 +107,18 @@ public final class ItemAttendanceMarkBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.tvAlreadyMarked;
+      TextView tvAlreadyMarked = ViewBindings.findChildViewById(rootView, id);
+      if (tvAlreadyMarked == null) {
+        break missingId;
+      }
+
+      id = R.id.tvRollNo;
+      TextView tvRollNo = ViewBindings.findChildViewById(rootView, id);
+      if (tvRollNo == null) {
+        break missingId;
+      }
+
       id = R.id.tvStudentName;
       TextView tvStudentName = ViewBindings.findChildViewById(rootView, id);
       if (tvStudentName == null) {
@@ -105,7 +126,7 @@ public final class ItemAttendanceMarkBinding implements ViewBinding {
       }
 
       return new ItemAttendanceMarkBinding((MaterialCardView) rootView, rbAbsent, rbLeave,
-          rbPresent, rgStatus, tvStudentName);
+          rbPresent, rgStatus, tvAlreadyMarked, tvRollNo, tvStudentName);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

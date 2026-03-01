@@ -10,11 +10,17 @@ import com.example.attendance.R;
 import com.example.attendance.databinding.ItemAttendanceRecordBinding;
 import com.example.attendance.models.Attendance;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class AttendanceRecordAdapter extends RecyclerView.Adapter<AttendanceRecordAdapter.ViewHolder> {
     private List<Attendance> records = new ArrayList<>();
+    private final SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+    private final SimpleDateFormat displayFormat = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
 
     public void setRecords(List<Attendance> records) {
         this.records = records;
@@ -33,22 +39,40 @@ public class AttendanceRecordAdapter extends RecyclerView.Adapter<AttendanceReco
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Attendance attendance = records.get(position);
         holder.binding.tvSubjectName.setText(attendance.getSubject() != null ? attendance.getSubject().getName() : "N/A");
-        holder.binding.tvAttendanceDate.setText(attendance.getDate());
-        
-        String status = attendance.getStatus();
-        holder.binding.tvAttendanceStatus.setText(status.equals("P") ? "PRESENT" : status.equals("A") ? "ABSENT" : "LEAVE");
-        
-        int badgeRes = R.drawable.badge_present;
-        int colorRes = 0xFF065F46; // success green dark
-        
-        if (status.equals("A")) {
-            badgeRes = R.drawable.badge_absent;
-            colorRes = 0xFF991B1B; // error red dark
-        } else if (status.equals("L")) {
-            badgeRes = R.drawable.badge_leave;
-            colorRes = 0xFF92400E; // warning yellow dark
+
+        // Format date nicely
+        String dateStr = attendance.getDate();
+        if (dateStr != null) {
+            try {
+                Date date = inputFormat.parse(dateStr);
+                holder.binding.tvAttendanceDate.setText(date != null ? displayFormat.format(date) : dateStr);
+            } catch (ParseException e) {
+                holder.binding.tvAttendanceDate.setText(dateStr);
+            }
+        } else {
+            holder.binding.tvAttendanceDate.setText("N/A");
         }
-        
+
+        String status = attendance.getStatus();
+        String displayStatus;
+        int badgeRes;
+        int colorRes;
+
+        if ("P".equals(status) || "PRESENT".equals(status)) {
+            displayStatus = "PRESENT";
+            badgeRes = R.drawable.badge_present;
+            colorRes = 0xFF065F46;
+        } else if ("A".equals(status) || "ABSENT".equals(status)) {
+            displayStatus = "ABSENT";
+            badgeRes = R.drawable.badge_absent;
+            colorRes = 0xFF991B1B;
+        } else {
+            displayStatus = "LEAVE";
+            badgeRes = R.drawable.badge_leave;
+            colorRes = 0xFF92400E;
+        }
+
+        holder.binding.tvAttendanceStatus.setText(displayStatus);
         holder.binding.tvAttendanceStatus.setBackgroundResource(badgeRes);
         holder.binding.tvAttendanceStatus.setTextColor(colorRes);
     }

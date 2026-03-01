@@ -6,6 +6,7 @@ public class Subject {
     private String code;
     private Program program;
     private Semester semester;
+    private Teacher teacher;
 
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
@@ -17,6 +18,8 @@ public class Subject {
     public void setProgram(Program program) { this.program = program; }
     public Semester getSemester() { return semester; }
     public void setSemester(Semester semester) { this.semester = semester; }
+    public Teacher getTeacher() { return teacher; }
+    public void setTeacher(Teacher teacher) { this.teacher = teacher; }
 
     @Override
     public String toString() {

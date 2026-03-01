@@ -1,12 +1,11 @@
 package com.example.attendance.ui.teacher;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -14,20 +13,20 @@ import java.io.IOException;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.attendance.databinding.FragmentTeacherBinding;
 import com.example.attendance.models.Attendance;
 import com.example.attendance.models.AttendanceRequest;
-import com.example.attendance.models.Program;
-import com.example.attendance.models.Semester;
 import com.example.attendance.models.Student;
 import com.example.attendance.models.Subject;
+import com.example.attendance.models.Teacher;
 import com.example.attendance.network.RetrofitClient;
-import com.example.attendance.utils.PreferenceManager;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -40,16 +39,19 @@ import retrofit2.Response;
 import com.google.android.material.tabs.TabLayout;
 
 public class TeacherFragment extends Fragment {
+    private static final String TAG = "TeacherFragment";
+
     private FragmentTeacherBinding binding;
+    private SubjectCardAdapter subjectCardAdapter;
     private AttendanceAdapter attendanceAdapter;
     private TeacherAttendanceRecordAdapter viewAdapter;
-    private List<Program> programs = new ArrayList<>();
-    private List<Semester> semesters = new ArrayList<>();
-    private List<Subject> subjects = new ArrayList<>();
 
-    private int selectedProgramId = -1;
-    private int selectedSemesterId = -1;
-    private int selectedSubjectId = -1;
+    private Teacher currentTeacher;
+    private List<Subject> allSubjects = new ArrayList<>();
+    private List<Attendance> allAttendance = new ArrayList<>();
+
+    private Subject selectedSubject;
+    private String attendanceDate;
 
     @Nullable
     @Override
@@ -62,19 +64,33 @@ public class TeacherFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        attendanceDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+
         setupRecyclerViews();
-        setupSpinners();
         setupTabs();
-        fetchPrograms();
+        setupDatePicker();
 
         binding.btnSubmitAttendance.setOnClickListener(v -> submitAttendance());
+
+        // Fetch data
+        fetchCurrentTeacher();
+        fetchAllSubjects();
+        fetchAllAttendance();
     }
 
     private void setupRecyclerViews() {
+        // Subject cards grid (2 columns)
+        subjectCardAdapter = new SubjectCardAdapter();
+        binding.rvSubjectCards.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        binding.rvSubjectCards.setAdapter(subjectCardAdapter);
+        subjectCardAdapter.setOnSubjectSelectedListener(this::onSubjectSelected);
+
+        // Attendance marking list
         attendanceAdapter = new AttendanceAdapter();
         binding.rvMarkAttendance.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.rvMarkAttendance.setAdapter(attendanceAdapter);
 
+        // View attendance history list
         viewAdapter = new TeacherAttendanceRecordAdapter();
         binding.rvViewAttendance.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.rvViewAttendance.setAdapter(viewAdapter);
@@ -90,7 +106,7 @@ public class TeacherFragment extends Fragment {
                 } else {
                     binding.layoutMarkAttendance.setVisibility(View.GONE);
                     binding.layoutViewAttendance.setVisibility(View.VISIBLE);
-                    fetchAttendance();
+                    showFilteredAttendanceHistory();
                 }
             }
             @Override
@@ -100,158 +116,178 @@ public class TeacherFragment extends Fragment {
         });
     }
 
-    private void fetchAttendance() {
-        RetrofitClient.getApiService().getAttendance().enqueue(new Callback<List<Attendance>>() {
+    private void setupDatePicker() {
+        binding.tvAttendanceDate.setText(attendanceDate);
+        binding.tvAttendanceDate.setOnClickListener(v -> {
+            Calendar cal = Calendar.getInstance();
+            new DatePickerDialog(getContext(), (view, year, month, dayOfMonth) -> {
+                cal.set(year, month, dayOfMonth);
+                attendanceDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(cal.getTime());
+                binding.tvAttendanceDate.setText(attendanceDate);
+                // Refresh already-marked status
+                if (selectedSubject != null) {
+                    loadStudentsForSubject(selectedSubject);
+                }
+            }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)).show();
+        });
+    }
+
+    private void fetchCurrentTeacher() {
+        RetrofitClient.getApiService().getCurrentTeacher().enqueue(new Callback<Teacher>() {
             @Override
-            public void onResponse(Call<List<Attendance>> call, Response<List<Attendance>> response) {
+            public void onResponse(Call<Teacher> call, Response<Teacher> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    viewAdapter.setRecords(response.body());
+                    currentTeacher = response.body();
+                    binding.tvWelcomeTeacher.setText("👋 Welcome, " + currentTeacher.getFullName());
+                    // Re-filter subjects now that we have the teacher
+                    filterAndShowSubjects();
                 }
             }
             @Override
-            public void onFailure(Call<List<Attendance>> call, Throwable t) {
-                if (getContext() != null)
-                    Toast.makeText(getContext(), "Failed to fetch attendance history", Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<Teacher> call, Throwable t) {
+                Log.e(TAG, "Failed to fetch current teacher", t);
             }
         });
     }
 
-    private void setupSpinners() {
-        binding.spinnerProgram.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position > 0) {
-                    selectedProgramId = programs.get(position - 1).getId();
-                    fetchSemesters();
-                } else {
-                    selectedProgramId = -1;
-                    resetSemesterSpinner();
-                    resetSubjectSpinner();
-                }
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
-        });
-
-        binding.spinnerSemester.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position > 0) {
-                    selectedSemesterId = semesters.get(position - 1).getId();
-                    fetchSubjects();
-                    fetchStudents();
-                } else {
-                    selectedSemesterId = -1;
-                    resetSubjectSpinner();
-            attendanceAdapter.setStudents(new ArrayList<>());
-                }
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
-        });
-
-        binding.spinnerSubject.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position > 0) {
-                    selectedSubjectId = subjects.get(position - 1).getId();
-                } else {
-                    selectedSubjectId = -1;
-                }
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
-        });
-    }
-
-    private void fetchPrograms() {
-        RetrofitClient.getApiService().getPrograms().enqueue(new Callback<List<Program>>() {
-            @Override
-            public void onResponse(Call<List<Program>> call, Response<List<Program>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    programs = response.body();
-                    List<String> names = new ArrayList<>();
-                    names.add("Select Program");
-                    for (Program p : programs) names.add(p.getName());
-                    
-                    if (getContext() != null) {
-                        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, names);
-                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        binding.spinnerProgram.setAdapter(adapter);
-                    }
-                }
-            }
-            @Override
-            public void onFailure(Call<List<Program>> call, Throwable t) {}
-        });
-    }
-
-    private void fetchSemesters() {
-        RetrofitClient.getApiService().getSemesters().enqueue(new Callback<List<Semester>>() {
-            @Override
-            public void onResponse(Call<List<Semester>> call, Response<List<Semester>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    semesters = response.body();
-                    List<String> names = new ArrayList<>();
-                    names.add("Select Semester");
-                    for (Semester s : semesters) names.add("Semester " + s.getNumber());
-                    
-                    if (getContext() != null) {
-                        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, names);
-                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        binding.spinnerSemester.setAdapter(adapter);
-                    }
-                }
-            }
-            @Override
-            public void onFailure(Call<List<Semester>> call, Throwable t) {}
-        });
-    }
-
-    private void fetchSubjects() {
+    private void fetchAllSubjects() {
         RetrofitClient.getApiService().getSubjects().enqueue(new Callback<List<Subject>>() {
             @Override
             public void onResponse(Call<List<Subject>> call, Response<List<Subject>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    subjects = response.body();
-                    List<String> names = new ArrayList<>();
-                    names.add("Select Subject");
-                    for (Subject s : subjects) names.add(s.getName());
-                    
-                    if (getContext() != null) {
-                        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, names);
-                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        binding.spinnerSubject.setAdapter(adapter);
+                    allSubjects = response.body();
+                    filterAndShowSubjects();
+                }
+            }
+            @Override
+            public void onFailure(Call<List<Subject>> call, Throwable t) {
+                Log.e(TAG, "Failed to fetch subjects", t);
+            }
+        });
+    }
+
+    private void fetchAllAttendance() {
+        RetrofitClient.getApiService().getAttendance().enqueue(new Callback<List<Attendance>>() {
+            @Override
+            public void onResponse(Call<List<Attendance>> call, Response<List<Attendance>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    allAttendance = response.body();
+                }
+            }
+            @Override
+            public void onFailure(Call<List<Attendance>> call, Throwable t) {
+                Log.e(TAG, "Failed to fetch attendance", t);
+            }
+        });
+    }
+
+    private void filterAndShowSubjects() {
+        if (currentTeacher == null || allSubjects.isEmpty()) return;
+
+        List<Subject> mySubjects = new ArrayList<>();
+        for (Subject s : allSubjects) {
+            if (s.getTeacher() != null && s.getTeacher().getId() == currentTeacher.getId()) {
+                mySubjects.add(s);
+            }
+        }
+
+        if (mySubjects.isEmpty()) {
+            binding.tvNoSubjects.setVisibility(View.VISIBLE);
+            binding.rvSubjectCards.setVisibility(View.GONE);
+        } else {
+            binding.tvNoSubjects.setVisibility(View.GONE);
+            binding.rvSubjectCards.setVisibility(View.VISIBLE);
+            subjectCardAdapter.setSubjects(mySubjects);
+        }
+    }
+
+    private void onSubjectSelected(Subject subject) {
+        selectedSubject = subject;
+
+        // Show date picker and student list section
+        binding.cardDatePicker.setVisibility(View.VISIBLE);
+        binding.tvStudentListHeader.setVisibility(View.VISIBLE);
+        binding.tvStudentListHeader.setText("Mark Attendance — " + subject.getName());
+        binding.btnSubmitAttendance.setVisibility(View.VISIBLE);
+
+        loadStudentsForSubject(subject);
+    }
+
+    private void loadStudentsForSubject(Subject subject) {
+        if (subject.getProgram() == null || subject.getSemester() == null) {
+            Toast.makeText(getContext(), "Subject missing program/semester info", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        int programId = subject.getProgram().getId();
+        int semesterId = subject.getSemester().getId();
+
+        RetrofitClient.getApiService().getStudentsByFilter(programId, semesterId)
+                .enqueue(new Callback<List<Student>>() {
+                    @Override
+                    public void onResponse(Call<List<Student>> call, Response<List<Student>> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            List<Student> activeStudents = new ArrayList<>();
+                            for (Student s : response.body()) {
+                                if (s.getStatus() != 0) {
+                                    activeStudents.add(s);
+                                }
+                            }
+                            attendanceAdapter.setStudents(activeStudents);
+                            // Set already-marked students
+                            attendanceAdapter.setAlreadyMarked(getAlreadyMarkedIds(activeStudents));
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<List<Student>> call, Throwable t) {
+                        if (getContext() != null)
+                            Toast.makeText(getContext(), "Failed to fetch students", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private List<Integer> getAlreadyMarkedIds(List<Student> students) {
+        List<Integer> markedIds = new ArrayList<>();
+        if (selectedSubject == null) return markedIds;
+
+        for (Attendance a : allAttendance) {
+            if (a.getSubject() != null && a.getSubject().getId() == selectedSubject.getId()
+                    && a.getDate() != null && a.getDate().equals(attendanceDate)) {
+                for (Student s : students) {
+                    if (a.getStudent() != null && a.getStudent().getId() == s.getId()) {
+                        markedIds.add(s.getId());
                     }
                 }
             }
-            @Override
-            public void onFailure(Call<List<Subject>> call, Throwable t) {}
-        });
+        }
+        return markedIds;
     }
 
-    private void fetchStudents() {
-        if (selectedProgramId == -1 || selectedSemesterId == -1) return;
+    private void showFilteredAttendanceHistory() {
+        if (currentTeacher == null) {
+            viewAdapter.setRecords(allAttendance);
+            return;
+        }
 
-        RetrofitClient.getApiService().getStudentsByFilter(selectedProgramId, selectedSemesterId).enqueue(new Callback<List<Student>>() {
-            @Override
-            public void onResponse(Call<List<Student>> call, Response<List<Student>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    attendanceAdapter.setStudents(response.body());
-                }
+        // Show only attendance for subjects assigned to this teacher
+        List<Integer> mySubjectIds = new ArrayList<>();
+        for (Subject s : allSubjects) {
+            if (s.getTeacher() != null && s.getTeacher().getId() == currentTeacher.getId()) {
+                mySubjectIds.add(s.getId());
             }
-            @Override
-            public void onFailure(Call<List<Student>> call, Throwable t) {
-                if (getContext() != null)
-                    Toast.makeText(getContext(), "Failed to fetch students", Toast.LENGTH_SHORT).show();
+        }
+
+        List<Attendance> filtered = new ArrayList<>();
+        for (Attendance a : allAttendance) {
+            if (a.getSubject() != null && mySubjectIds.contains(a.getSubject().getId())) {
+                filtered.add(a);
             }
-        });
+        }
+        viewAdapter.setRecords(filtered);
     }
-
-    private static final String TAG = "TeacherFragment";
 
     private void submitAttendance() {
-        if (selectedSubjectId == -1) {
+        if (selectedSubject == null) {
             Toast.makeText(getContext(), "Please select a subject", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -262,34 +298,29 @@ public class TeacherFragment extends Fragment {
             return;
         }
 
-        String today = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
-        Log.d(TAG, "Submitting attendance for date: " + today + ", subjectId: " + selectedSubjectId);
-        
+        Log.d(TAG, "Submitting attendance for date: " + attendanceDate + ", subjectId: " + selectedSubject.getId());
+
         int totalRequests = statuses.size();
         final int[] completedRequests = {0};
         final boolean[] anyFailure = {false};
 
         for (Map.Entry<Integer, String> entry : statuses.entrySet()) {
-            AttendanceRequest request = new AttendanceRequest(today, entry.getValue(), entry.getKey(), selectedSubjectId);
+            AttendanceRequest request = new AttendanceRequest(attendanceDate, entry.getValue(), entry.getKey(), selectedSubject.getId());
             Log.d(TAG, "Posting attendance for student " + entry.getKey() + " with status " + entry.getValue());
-            
+
             RetrofitClient.getApiService().markAttendance(request).enqueue(new Callback<Void>() {
                 @Override
                 public void onResponse(Call<Void> call, Response<Void> response) {
                     completedRequests[0]++;
                     if (!response.isSuccessful()) {
                         anyFailure[0] = true;
-                        Log.e(TAG, "Failed to mark attendance for student " + request.getStudent().getId() + 
-                                ". Code: " + response.code() + ", Message: " + response.message());
+                        Log.e(TAG, "Failed to mark attendance. Code: " + response.code());
                         try {
                             if (response.errorBody() != null) {
                                 Log.e(TAG, "Error body: " + response.errorBody().string());
                             }
                         } catch (IOException e) { e.printStackTrace(); }
-                    } else {
-                        Log.d(TAG, "Successfully marked attendance for student " + request.getStudent().getId());
                     }
-                    
                     checkCompletion(completedRequests[0], totalRequests, anyFailure[0]);
                 }
 
@@ -297,7 +328,7 @@ public class TeacherFragment extends Fragment {
                 public void onFailure(Call<Void> call, Throwable t) {
                     completedRequests[0]++;
                     anyFailure[0] = true;
-                    Log.e(TAG, "Network failure marking attendance for student " + request.getStudent().getId(), t);
+                    Log.e(TAG, "Network failure", t);
                     checkCompletion(completedRequests[0], totalRequests, anyFailure[0]);
                 }
             });
@@ -307,32 +338,16 @@ public class TeacherFragment extends Fragment {
     private void checkCompletion(int completed, int total, boolean failed) {
         if (completed == total) {
             if (failed) {
-                Toast.makeText(getContext(), "Some attendance records failed to save. Check logs.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Some attendance records failed to save.", Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(getContext(), "All attendance records saved successfully", Toast.LENGTH_SHORT).show();
-                // Switching to View tab to reflect changes
+                Toast.makeText(getContext(), "All attendance records saved successfully!", Toast.LENGTH_SHORT).show();
+                // Refresh attendance data
+                fetchAllAttendance();
+                // Switch to View tab
                 if (binding.tabLayout.getTabAt(1) != null) {
                     binding.tabLayout.getTabAt(1).select();
                 }
             }
-        }
-    }
-
-    private void resetSemesterSpinner() {
-        if (getContext() != null) {
-            List<String> names = new ArrayList<>();
-            names.add("Select Semester");
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, names);
-            binding.spinnerSemester.setAdapter(adapter);
-        }
-    }
-
-    private void resetSubjectSpinner() {
-        if (getContext() != null) {
-            List<String> names = new ArrayList<>();
-            names.add("Select Subject");
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, names);
-            binding.spinnerSubject.setAdapter(adapter);
         }
     }
 }

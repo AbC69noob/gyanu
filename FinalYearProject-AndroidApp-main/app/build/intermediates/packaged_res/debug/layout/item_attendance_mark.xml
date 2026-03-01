@@ -11,48 +11,85 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="12dp"
-        android:gravity="center_vertical">
+        android:orientation="vertical"
+        android:padding="12dp">
 
-        <TextView
-            android:id="@+id/tvStudentName"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Student Name"
-            android:textColor="@color/black"
-            android:textSize="14sp" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
-        <RadioGroup
-            android:id="@+id/rgStatus"
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvStudentName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Student Name"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvRollNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="Roll No: 123"
+                    android:textColor="#64748b"
+                    android:textSize="11sp" />
+            </LinearLayout>
+
+            <RadioGroup
+                android:id="@+id/rgStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rbPresent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="P"
+                    android:buttonTint="@color/success_green"
+                    android:textSize="12sp" />
+
+                <RadioButton
+                    android:id="@+id/rbAbsent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="A"
+                    android:buttonTint="@color/error_red"
+                    android:textSize="12sp" />
+
+                <RadioButton
+                    android:id="@+id/rbLeave"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="L"
+                    android:buttonTint="#f59e0b"
+                    android:textSize="12sp" />
+            </RadioGroup>
+        </LinearLayout>
+
+        <!-- Already Marked Badge -->
+        <TextView
+            android:id="@+id/tvAlreadyMarked"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/rbPresent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="P"
-                android:buttonTint="@color/success_green"
-                android:textSize="12sp" />
-
-            <RadioButton
-                android:id="@+id/rbAbsent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="A"
-                android:buttonTint="@color/error_red"
-                android:textSize="12sp" />
-
-            <RadioButton
-                android:id="@+id/rbLeave"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="L"
-                android:buttonTint="#f59e0b"
-                android:textSize="12sp" />
-        </RadioGroup>
+            android:layout_marginTop="6dp"
+            android:background="@drawable/badge_active"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="3dp"
+            android:text="✓ Already Marked"
+            android:textColor="#065F46"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

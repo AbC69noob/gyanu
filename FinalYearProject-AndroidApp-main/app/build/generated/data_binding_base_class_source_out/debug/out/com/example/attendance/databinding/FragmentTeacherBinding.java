@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,7 +27,7 @@ public final class FragmentTeacherBinding implements ViewBinding {
   public final Button btnSubmitAttendance;
 
   @NonNull
-  public final MaterialCardView cardFilters;
+  public final MaterialCardView cardDatePicker;
 
   @NonNull
   public final LinearLayout layoutMarkAttendance;
@@ -40,42 +39,51 @@ public final class FragmentTeacherBinding implements ViewBinding {
   public final RecyclerView rvMarkAttendance;
 
   @NonNull
+  public final RecyclerView rvSubjectCards;
+
+  @NonNull
   public final RecyclerView rvViewAttendance;
-
-  @NonNull
-  public final Spinner spinnerProgram;
-
-  @NonNull
-  public final Spinner spinnerSemester;
-
-  @NonNull
-  public final Spinner spinnerSubject;
 
   @NonNull
   public final TabLayout tabLayout;
 
   @NonNull
-  public final TextView tvSectionTitle;
+  public final TextView tvAttendanceDate;
+
+  @NonNull
+  public final TextView tvNoSubjects;
+
+  @NonNull
+  public final TextView tvStudentListHeader;
+
+  @NonNull
+  public final TextView tvTeacherSubtitle;
+
+  @NonNull
+  public final TextView tvWelcomeTeacher;
 
   private FragmentTeacherBinding(@NonNull LinearLayout rootView,
-      @NonNull Button btnSubmitAttendance, @NonNull MaterialCardView cardFilters,
+      @NonNull Button btnSubmitAttendance, @NonNull MaterialCardView cardDatePicker,
       @NonNull LinearLayout layoutMarkAttendance, @NonNull LinearLayout layoutViewAttendance,
-      @NonNull RecyclerView rvMarkAttendance, @NonNull RecyclerView rvViewAttendance,
-      @NonNull Spinner spinnerProgram, @NonNull Spinner spinnerSemester,
-      @NonNull Spinner spinnerSubject, @NonNull TabLayout tabLayout,
-      @NonNull TextView tvSectionTitle) {
+      @NonNull RecyclerView rvMarkAttendance, @NonNull RecyclerView rvSubjectCards,
+      @NonNull RecyclerView rvViewAttendance, @NonNull TabLayout tabLayout,
+      @NonNull TextView tvAttendanceDate, @NonNull TextView tvNoSubjects,
+      @NonNull TextView tvStudentListHeader, @NonNull TextView tvTeacherSubtitle,
+      @NonNull TextView tvWelcomeTeacher) {
     this.rootView = rootView;
     this.btnSubmitAttendance = btnSubmitAttendance;
-    this.cardFilters = cardFilters;
+    this.cardDatePicker = cardDatePicker;
     this.layoutMarkAttendance = layoutMarkAttendance;
     this.layoutViewAttendance = layoutViewAttendance;
     this.rvMarkAttendance = rvMarkAttendance;
+    this.rvSubjectCards = rvSubjectCards;
     this.rvViewAttendance = rvViewAttendance;
-    this.spinnerProgram = spinnerProgram;
-    this.spinnerSemester = spinnerSemester;
-    this.spinnerSubject = spinnerSubject;
     this.tabLayout = tabLayout;
-    this.tvSectionTitle = tvSectionTitle;
+    this.tvAttendanceDate = tvAttendanceDate;
+    this.tvNoSubjects = tvNoSubjects;
+    this.tvStudentListHeader = tvStudentListHeader;
+    this.tvTeacherSubtitle = tvTeacherSubtitle;
+    this.tvWelcomeTeacher = tvWelcomeTeacher;
   }
 
   @Override
@@ -111,9 +119,9 @@ public final class FragmentTeacherBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.cardFilters;
-      MaterialCardView cardFilters = ViewBindings.findChildViewById(rootView, id);
-      if (cardFilters == null) {
+      id = R.id.cardDatePicker;
+      MaterialCardView cardDatePicker = ViewBindings.findChildViewById(rootView, id);
+      if (cardDatePicker == null) {
         break missingId;
       }
 
@@ -135,27 +143,15 @@ public final class FragmentTeacherBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.rvSubjectCards;
+      RecyclerView rvSubjectCards = ViewBindings.findChildViewById(rootView, id);
+      if (rvSubjectCards == null) {
+        break missingId;
+      }
+
       id = R.id.rvViewAttendance;
       RecyclerView rvViewAttendance = ViewBindings.findChildViewById(rootView, id);
       if (rvViewAttendance == null) {
-        break missingId;
-      }
-
-      id = R.id.spinnerProgram;
-      Spinner spinnerProgram = ViewBindings.findChildViewById(rootView, id);
-      if (spinnerProgram == null) {
-        break missingId;
-      }
-
-      id = R.id.spinnerSemester;
-      Spinner spinnerSemester = ViewBindings.findChildViewById(rootView, id);
-      if (spinnerSemester == null) {
-        break missingId;
-      }
-
-      id = R.id.spinnerSubject;
-      Spinner spinnerSubject = ViewBindings.findChildViewById(rootView, id);
-      if (spinnerSubject == null) {
         break missingId;
       }
 
@@ -165,15 +161,40 @@ public final class FragmentTeacherBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.tvSectionTitle;
-      TextView tvSectionTitle = ViewBindings.findChildViewById(rootView, id);
-      if (tvSectionTitle == null) {
+      id = R.id.tvAttendanceDate;
+      TextView tvAttendanceDate = ViewBindings.findChildViewById(rootView, id);
+      if (tvAttendanceDate == null) {
         break missingId;
       }
 
-      return new FragmentTeacherBinding((LinearLayout) rootView, btnSubmitAttendance, cardFilters,
-          layoutMarkAttendance, layoutViewAttendance, rvMarkAttendance, rvViewAttendance,
-          spinnerProgram, spinnerSemester, spinnerSubject, tabLayout, tvSectionTitle);
+      id = R.id.tvNoSubjects;
+      TextView tvNoSubjects = ViewBindings.findChildViewById(rootView, id);
+      if (tvNoSubjects == null) {
+        break missingId;
+      }
+
+      id = R.id.tvStudentListHeader;
+      TextView tvStudentListHeader = ViewBindings.findChildViewById(rootView, id);
+      if (tvStudentListHeader == null) {
+        break missingId;
+      }
+
+      id = R.id.tvTeacherSubtitle;
+      TextView tvTeacherSubtitle = ViewBindings.findChildViewById(rootView, id);
+      if (tvTeacherSubtitle == null) {
+        break missingId;
+      }
+
+      id = R.id.tvWelcomeTeacher;
+      TextView tvWelcomeTeacher = ViewBindings.findChildViewById(rootView, id);
+      if (tvWelcomeTeacher == null) {
+        break missingId;
+      }
+
+      return new FragmentTeacherBinding((LinearLayout) rootView, btnSubmitAttendance,
+          cardDatePicker, layoutMarkAttendance, layoutViewAttendance, rvMarkAttendance,
+          rvSubjectCards, rvViewAttendance, tabLayout, tvAttendanceDate, tvNoSubjects,
+          tvStudentListHeader, tvTeacherSubtitle, tvWelcomeTeacher);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

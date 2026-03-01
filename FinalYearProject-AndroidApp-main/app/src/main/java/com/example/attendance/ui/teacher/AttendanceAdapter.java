@@ -1,6 +1,7 @@
 package com.example.attendance.ui.teacher;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -17,10 +18,16 @@ import java.util.Map;
 public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.ViewHolder> {
     private List<Student> students = new ArrayList<>();
     private Map<Integer, String> attendanceStatuses = new HashMap<>();
+    private List<Integer> alreadyMarkedIds = new ArrayList<>();
 
     public void setStudents(List<Student> students) {
         this.students = students;
         this.attendanceStatuses.clear();
+        notifyDataSetChanged();
+    }
+
+    public void setAlreadyMarked(List<Integer> markedIds) {
+        this.alreadyMarkedIds = markedIds;
         notifyDataSetChanged();
     }
 
@@ -40,10 +47,22 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.Vi
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Student student = students.get(position);
         holder.binding.tvStudentName.setText(student.getName());
-        
+        holder.binding.tvRollNo.setText("Roll No: " + (student.getRollNo() != null ? student.getRollNo() : "N/A"));
+
+        boolean isAlreadyMarked = alreadyMarkedIds.contains(student.getId());
+
+        // Show/hide already marked badge
+        holder.binding.tvAlreadyMarked.setVisibility(isAlreadyMarked ? View.VISIBLE : View.GONE);
+
+        // Disable radio buttons if already marked
+        holder.binding.rbPresent.setEnabled(!isAlreadyMarked);
+        holder.binding.rbAbsent.setEnabled(!isAlreadyMarked);
+        holder.binding.rbLeave.setEnabled(!isAlreadyMarked);
+
         // Reset radio group
+        holder.binding.rgStatus.setOnCheckedChangeListener(null);
         holder.binding.rgStatus.clearCheck();
-        
+
         String status = attendanceStatuses.get(student.getId());
         if (status != null) {
             switch (status) {
@@ -58,7 +77,7 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.Vi
             if (checkedId == holder.binding.rbPresent.getId()) selectedStatus = "P";
             else if (checkedId == holder.binding.rbAbsent.getId()) selectedStatus = "A";
             else if (checkedId == holder.binding.rbLeave.getId()) selectedStatus = "L";
-            
+
             if (selectedStatus != null) {
                 attendanceStatuses.put(student.getId(), selectedStatus);
             }

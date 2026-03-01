@@ -4,7 +4,7 @@
             "outputFile": "com.example.attendance.app-mergeDebugResources-29:/values-w320dp-land-v13/values-w320dp-land-v13.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\pujak\\.gradle\\caches\\8.12\\transforms\\a50b8127d14877a06dc8aaa1b0e8c678\\transformed\\material-1.9.0\\res\\values-w320dp-land-v13\\values-w320dp-land-v13.xml",
+                    "source": "C:\\Users\\Dell\\.gradle\\caches\\8.12\\transforms\\a50b8127d14877a06dc8aaa1b0e8c678\\transformed\\material-1.9.0\\res\\values-w320dp-land-v13\\values-w320dp-land-v13.xml",
                     "from": {
                         "startLines": "2,3",
                         "startColumns": "4,4",

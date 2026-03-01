@@ -4,7 +4,7 @@
             "outputFile": "com.example.attendance.app-mergeDebugResources-29:/values-v24/values-v24.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\pujak\\.gradle\\caches\\8.12\\transforms\\a50b8127d14877a06dc8aaa1b0e8c678\\transformed\\material-1.9.0\\res\\values-v24\\values-v24.xml",
+                    "source": "C:\\Users\\Dell\\.gradle\\caches\\8.12\\transforms\\a50b8127d14877a06dc8aaa1b0e8c678\\transformed\\material-1.9.0\\res\\values-v24\\values-v24.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,9,12,15",
                         "startColumns": "4,4,4,4,4,4,4,4",
@@ -23,7 +23,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\pujak\\.gradle\\caches\\8.12\\transforms\\ad345822c3793e321c08dea4fb0555d2\\transformed\\appcompat-1.6.1\\res\\values-v24\\values-v24.xml",
+                    "source": "C:\\Users\\Dell\\.gradle\\caches\\8.12\\transforms\\ad345822c3793e321c08dea4fb0555d2\\transformed\\appcompat-1.6.1\\res\\values-v24\\values-v24.xml",
                     "from": {
                         "startLines": "2,3",
                         "startColumns": "4,4",
